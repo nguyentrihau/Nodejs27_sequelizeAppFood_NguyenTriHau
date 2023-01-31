@@ -2,15 +2,18 @@
 const successCode = (res, data, message) => {
   res.status(200).json({
     message,
-    content: data,
+    ...(data && {
+      content: data,
+    }),
   });
 };
-
 //400
 const failCode = (res, data, message) => {
   res.status(400).json({
     message,
-    content: data,
+    ...(data && {
+      content: data,
+    }),
   });
 };
 
@@ -26,3 +29,21 @@ module.exports = {
   failCode,
   errorCode,
 };
+
+// domain/categories&sortBy=backend&search=java
+
+// const [searchParams, setSearchParams] = useSearchParams();
+
+// searchParams.get("sortBy") // = backend
+// searchParams.get("search") // = java
+
+// //state = sortBy
+// //state = search
+// setSearchParams({
+//   ...(sortBy && {
+//     sortBy: "backend"
+//   }),
+//   ...(sortBy && {
+//     search: "java"
+//   })
+// })

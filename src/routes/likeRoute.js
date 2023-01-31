@@ -5,8 +5,8 @@ const {
   deleteLike,
 } = require("../controllers/likeController");
 const likeRoute = express.Router();
-likeRoute.get("/getLike", getLike);
-likeRoute.post("/postLike/:id", postLike);
+likeRoute.get("/getLike/:id", getLike);
 likeRoute.post("/postLike", postLike);
+// likeRoute.post("/postLike", postLike);
 likeRoute.delete("/deleteLike", deleteLike);
 module.exports = likeRoute;

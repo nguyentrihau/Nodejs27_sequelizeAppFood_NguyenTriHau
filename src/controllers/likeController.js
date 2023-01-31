@@ -1,21 +1,71 @@
-const { successCode, errorCode } = require("../config/response");
-const { sequelize, conn } = require("../models");
+const { successCode, errorCode, failCode } = require("../config/response");
+const { sequelize } = require("../models");
 const initModels = require("../models/init-models");
 const model = initModels(sequelize);
 const getLike = async (req, res) => {
+  const { id } = req.params;
   try {
-    let data = await model.like_res.findAll({
-      include: ["re", "user"],
+    let data = await model.restaurant.findAll({
+      include: [
+        {
+          model: model.like_res,
+          as: "like_res",
+          // where: {
+          //   user_id: id, //{[Op.ne]: id} === !=
+          // },
+        },
+      ],
+      where: {
+        "$like_res.user_id$": id,
+        // '$rate_res.user_id$': id,
+        //WHERE rate_res.user_id = id AND like_res.user_id = id
+      },
     });
     successCode(res, data, "Lấy dữ liệu thành công");
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     errorCode(res, "Lỗi back end");
   }
 };
 //tim like theo id
 
 const postLike = async (req, res) => {
+  try {
+    const { res_id, user_id } = req.body;
+    const user = await model.users.findOne({
+      where: {
+        id: user_id,
+      },
+    });
+    const restaurant = await model.restaurant.findOne({
+      where: {
+        id: res_id,
+      },
+    });
+    if (user && restaurant) {
+      const checkIfLiked = await model.like_res.findOne({
+        where: {
+          user_id,
+          res_id,
+        },
+      });
+      if (!checkIfLiked) {
+        await model.like_res.create({
+          user_id,
+          res_id,
+          date_like: "2022-12-03 00:00:00",
+        });
+        successCode(res, "", "Like thành công!");
+      } else {
+        failCode(res, "user da like");
+      }
+    } else {
+      failCode(res, "Khong tim thay user hoac nha hang");
+    }
+  } catch (error) {
+    console.log(error);
+    errorCode(res, "Lỗi back end");
+  }
   // try {
   //   const { user_id, res_id } = req.body;
   //   const user_name = await model.users.findOne({
