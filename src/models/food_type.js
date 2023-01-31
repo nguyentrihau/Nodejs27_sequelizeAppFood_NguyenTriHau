@@ -6,15 +6,15 @@ module.exports = (sequelize, DataTypes) => {
 class food_type extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    type_id: {
+    id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     type_name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING(150),
+      allowNull: false
     }
   }, {
     sequelize,
@@ -26,7 +26,7 @@ class food_type extends Sequelize.Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "type_id" },
+          { name: "id" },
         ]
       },
     ]

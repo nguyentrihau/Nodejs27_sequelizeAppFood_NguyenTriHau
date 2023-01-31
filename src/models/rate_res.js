@@ -6,31 +6,35 @@ module.exports = (sequelize, DataTypes) => {
 class rate_res extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    user_id: {
+    id: {
+      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
-        model: 'user',
-        key: 'user_id'
+        model: 'users',
+        key: 'id'
       }
     },
     res_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
+      allowNull: true,
       references: {
         model: 'restaurant',
-        key: 'res_id'
+        key: 'id'
       }
     },
     amount: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     date_rate: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: false
     }
   }, {
     sequelize,
@@ -42,8 +46,14 @@ class rate_res extends Sequelize.Model {
         unique: true,
         using: "BTREE",
         fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "user_id",
+        using: "BTREE",
+        fields: [
           { name: "user_id" },
-          { name: "res_id" },
         ]
       },
       {

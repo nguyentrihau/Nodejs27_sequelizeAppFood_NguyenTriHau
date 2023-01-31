@@ -1,44 +1,48 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  return order.init(sequelize, DataTypes);
+  return food_order.init(sequelize, DataTypes);
 }
 
-class order extends Sequelize.Model {
+class food_order extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    user_id: {
+    id: {
+      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
-        model: 'user',
-        key: 'user_id'
+        model: 'users',
+        key: 'id'
       }
     },
     food_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
+      allowNull: true,
       references: {
         model: 'food',
-        key: 'food_id'
+        key: 'id'
       }
     },
     amount: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
-    code: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+    order_code: {
+      type: DataTypes.STRING(150),
+      allowNull: false
     },
     arr_sub_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING(150),
+      allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'order',
+    tableName: 'food_order',
     timestamps: false,
     indexes: [
       {
@@ -46,8 +50,14 @@ class order extends Sequelize.Model {
         unique: true,
         using: "BTREE",
         fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "user_id",
+        using: "BTREE",
+        fields: [
           { name: "user_id" },
-          { name: "food_id" },
         ]
       },
       {

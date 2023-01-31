@@ -6,23 +6,23 @@ module.exports = (sequelize, DataTypes) => {
 class restaurant extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    res_id: {
+    id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     res_name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING(150),
+      allowNull: false
     },
     image: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING(150),
+      allowNull: false
     },
-    desc: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+    restaurant_desc: {
+      type: DataTypes.STRING(150),
+      allowNull: false
     }
   }, {
     sequelize,
@@ -34,7 +34,7 @@ class restaurant extends Sequelize.Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "res_id" },
+          { name: "id" },
         ]
       },
     ]

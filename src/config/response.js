@@ -18,7 +18,6 @@ const failCode = (res, data, message) => {
 const errorCode = (res, message) => {
   res.status(500).json({
     message,
-    content: data,
   });
 };
 

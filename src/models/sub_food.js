@@ -6,26 +6,26 @@ module.exports = (sequelize, DataTypes) => {
 class sub_food extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    sub_id: {
+    id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     sub_name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING(150),
+      allowNull: false
     },
     sub_price: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+      type: DataTypes.FLOAT,
+      allowNull: false
     },
     food_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'food',
-        key: 'food_id'
+        key: 'id'
       }
     }
   }, {
@@ -38,7 +38,7 @@ class sub_food extends Sequelize.Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "sub_id" },
+          { name: "id" },
         ]
       },
       {

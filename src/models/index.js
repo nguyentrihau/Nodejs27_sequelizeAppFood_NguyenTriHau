@@ -12,11 +12,14 @@ const sequelize = new Sequelize(
   }
 );
 
-try {
-  sequelize.authenticate();
-  console.log("ket noi thanh cong");
-} catch (error) {
-  console.log("ket noi that bai");
-}
+const mysql = require("mysql2");
 
-module.exports = sequelize;
+const conn = mysql.createConnection({
+  host: config.dbHost,
+  user: config.dbUser,
+  password: config.dbPass,
+  port: config.dbPort,
+  database: config.dbDatabase,
+});
+
+module.exports = { sequelize, conn };

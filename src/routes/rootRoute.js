@@ -1,16 +1,15 @@
 const express = require("express");
 const likeRoute = require("./likeRoute");
+const rateRoute = require("./rateRoute");
 const userRoute = require("./userRoute");
 const rootRoute = express.Router();
 
 //su dung middleware cua express
-rootRoute.use("/user",userRoute);
+rootRoute.use("/user", userRoute);
+//like
+rootRoute.use("/like", likeRoute);
 
-//product
-rootRoute.use("/like",likeRoute);
-
-//food
-// rootRoute.use("/food",foodRoute);
-
+//rate
+rootRoute.use("/rate", rateRoute);
 
 module.exports = rootRoute;

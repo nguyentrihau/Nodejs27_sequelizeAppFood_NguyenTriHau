@@ -1,16 +1,22 @@
 const express = require("express");
+const {
+  getUser,
+  createUser,
+  getAllUsers,
+  deleteUser,
+  updateUser,
+} = require("../controllers/userController");
 const userRoute = express.Router();
 
-//import commonjs  Module
-//import ham getUser tu thu muc controller
-const {getUser, createUser} = require('../controllers/userController');
-//tao api phuong thuc GET
-userRoute.get("/getUser",getUser);
-//tao api phuong thuc POST
-userRoute.post("/createUser",createUser);
-//tao api phuong thuc PUT
-// userRoute.post("/updateUser",updateUser);
+//Tạo api
+userRoute.get("/getAllUsers", getAllUsers);
 
+userRoute.get("/getUser/:id", getUser);
 
+userRoute.post("/createUser", createUser);
+
+userRoute.delete("/deleteUser/:id", deleteUser);
+
+userRoute.put("/updateUser/:id", updateUser);
 
 module.exports = userRoute;
