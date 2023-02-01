@@ -3,7 +3,8 @@ const { sequelize } = require("../models/index");
 const initModels = require("../models/init-models");
 const model = initModels(sequelize);
 
-let date = new Date();
+// let date = new Date();
+// date = date.setUTCHours();
 
 const createRate = async (req, res) => {
   try {
@@ -19,26 +20,6 @@ const createRate = async (req, res) => {
       },
     });
     if (user && restaurant) {
-      // const CheckIfRated = await model.rate_res.findOne({
-      //   where: {
-      //     user_id,
-      //     res_id,
-      //   },
-      // });
-      // let datafe = {
-      //   user_id,
-      //   res_id,
-      //   amount,
-      //   date_rate: "2022-12-03 00:00:00",
-      // };
-      // if (!CheckIfRated) {
-      //   await model.rate_res.create(datafe);
-      //   successCode(res, null, "Thêm rate thành công");
-      // } else {
-      //   // await model.rate_res.update(datafe);
-      //   successCode(res, null, "rate lại thành công");
-      // }
-
       //xóa luôn dòng đó
       await model.rate_res.destroy({
         where: {
