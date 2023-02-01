@@ -27,7 +27,6 @@ const getLike = async (req, res) => {
     errorCode(res, "Lỗi back end");
   }
 };
-//tim like theo id
 
 const postLike = async (req, res) => {
   try {
@@ -157,8 +156,20 @@ const deleteLike = async (req, res) => {
     errorCode(res, "Lỗi back end");
   }
 };
+const getAllLikeResUser = async (req, res) => {
+  try {
+    let data = await model.like_res.findAll({
+      include: ["re", "user"],
+    });
+    successCode(res, data, "lấy dữ liệu thành công");
+  } catch (error) {
+    console.log(error);
+    errorCode(res, "Lỗi back end");
+  }
+};
 module.exports = {
   getLike,
   postLike,
   deleteLike,
+  getAllLikeResUser,
 };
