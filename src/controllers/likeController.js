@@ -10,16 +10,16 @@ const getLike = async (req, res) => {
         {
           model: model.like_res,
           as: "like_res",
-          // where: {
-          //   user_id: id, //{[Op.ne]: id} === !=
-          // },
+          where: {
+            user_id: id, //{[Op.ne]: id} === !=
+          },
         },
       ],
-      where: {
-        "$like_res.user_id$": id,
-        // '$rate_res.user_id$': id,
-        //WHERE rate_res.user_id = id AND like_res.user_id = id
-      },
+      // where: {
+      //   "$like_res.user_id$": id,
+      //   // '$rate_res.user_id$': id,
+      //   //WHERE rate_res.user_id = id AND like_res.user_id = id
+      // },
     });
     successCode(res, data, "Lấy dữ liệu thành công");
   } catch (error) {
@@ -55,15 +55,15 @@ const postLike = async (req, res) => {
           res_id,
           date_like: "2022-12-03 00:00:00",
         });
-        successCode(res, "", "Like thành công!");
+        successCode(res, null, "Like thành công!");
       } else {
-        failCode(res, "user da like");
+        failCode(res, "User đã like restaurant này");
       }
     } else {
-      failCode(res, "Khong tim thay user hoac nha hang");
+      failCode(res, null, "Không tìm thấy user hoặc nhà hàng");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     errorCode(res, "Lỗi back end");
   }
   // try {
@@ -117,10 +117,43 @@ const postLike = async (req, res) => {
   //   errorCode(res, "Lỗi back end");
   // }
 };
-const deleteLike = (req, res) => {
+const deleteLike = async (req, res) => {
   try {
-    res.send("a");
+    const { res_id, user_id } = req.body;
+    const user = await model.users.findOne({
+      where: {
+        id: user_id,
+      },
+    });
+    const restaurant = await model.restaurant.findOne({
+      where: {
+        id: res_id,
+      },
+    });
+    if (user && restaurant) {
+      const checkIfLiked = await model.like_res.findOne({
+        where: {
+          user_id,
+          res_id,
+        },
+      });
+      // console.log(checkIfLiked);
+      if (checkIfLiked) {
+        await model.like_res.destroy({
+          where: {
+            user_id,
+            res_id,
+          },
+        });
+        successCode(res, null, "Hủy like thành công");
+      } else {
+        failCode(res, null, "user chưa like nhà hàng này");
+      }
+    } else {
+      failCode(res, null, "Không tìm thấy user hoặc nhà hàng nào");
+    }
   } catch (error) {
+    console.log(error);
     errorCode(res, "Lỗi back end");
   }
 };
