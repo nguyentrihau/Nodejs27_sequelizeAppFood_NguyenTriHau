@@ -1,4 +1,5 @@
 const express = require("express");
+const foodRoute = require("./foodRoute");
 const likeRoute = require("./likeRoute");
 const orderRoute = require("./orderRoute");
 const rateRoute = require("./rateRoute");
@@ -14,4 +15,6 @@ rootRoute.use("/like", likeRoute);
 rootRoute.use("/rate", rateRoute);
 //order
 rootRoute.use("/order", orderRoute);
+rootRoute.use("/res", likeRoute);
+rootRoute.use("/food", foodRoute);
 module.exports = rootRoute;

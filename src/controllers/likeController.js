@@ -167,9 +167,18 @@ const getAllLikeResUser = async (req, res) => {
     errorCode(res, "Lỗi back end");
   }
 };
+const getAllRes = async (req, res) => {
+  try {
+    const data = await model.restaurant.findAll();
+    if (data) res.status(200).send(data);
+  } catch (error) {
+    res.status(500).send("Lỗi backend");
+  }
+};
 module.exports = {
   getLike,
   postLike,
   deleteLike,
   getAllLikeResUser,
+  getAllRes,
 };
